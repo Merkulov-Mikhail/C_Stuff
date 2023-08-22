@@ -63,6 +63,10 @@ void getParameterValue(const char *variableName, double *var)
 {
     printf("Введите значение переменной %s: ", variableName);
     scanf("%lf", var);
+    while (isnan(*var)) {
+        getchar();
+        scanf("%lf", var);
+    }
 }
 
 
@@ -91,14 +95,13 @@ int solveSquare(const double a, const double b, const double c, double *x1, doub
 
     double discriminant = b * b - 4.0 * a * c;
 
-    if (discriminant < 0.0)
-        return 0;//TODO poryadok
-
-    else if (isZero(discriminant))
+    if (isZero(discriminant))
     {
         *x1 = -b / 2.0 / a;
         return 1;
     }
+    else if (discriminant < 0.0)
+        return 0;
     else
     {
 
