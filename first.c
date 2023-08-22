@@ -10,24 +10,27 @@ bool isZero(double value);
 
 int solveSquare(const double a, const double b, const double c, double *x1, double *x2);
 int solveLinear(const double b, const double c, double *x1);
-void getValue(const char variableName[], double *var);
+void getAllParameterValues(double *a, double *b, double *c);
+void getParameterValue(const char *variableName, double *var);
 void greetings();
 
 
 int main()
 {
-    double a = 0, b = 0, c = 0;
+    double a = NAN, b = NAN, c = NAN;
 
     greetings();
 
-    getValue("a", &a);
-    getValue("b", &b);
-    getValue("c", &c);
-    printf("%lf\n\n\n", a);
+    getAllParameterValues(&a, &b, &c);
+
+    if (isnan(a) || isnan(b) || isnan(c))
+    {
+        printf("Неверные входные данные");
+        return -2;
+    }
 
     double x1 = 0, x2 = 0;
-    int nRoots;
-    nRoots = solveSquare(a, b, c, &x1, &x2);
+    int nRoots = solveSquare(a, b, c, &x1, &x2);
     switch (nRoots){
         case 0: printf("Решений нет");
                 break;
@@ -47,7 +50,16 @@ int main()
 }
 
 
-void getValue(const char *variableName, double *var)
+void getAllParameterValues(double *a, double *b, double *c)
+{
+
+    getParameterValue("a", a);
+    getParameterValue("b", b);
+    getParameterValue("c", c);
+}                     //TODO while
+
+
+void getParameterValue(const char *variableName, double *var)
 {
     printf("Введите значение переменной %s: ", variableName);
     scanf("%lf", var);
@@ -77,11 +89,10 @@ int solveSquare(const double a, const double b, const double c, double *x1, doub
 
     // ax**2 + bx + c = 0
 
-    double discriminant;
-    discriminant = b * b - 4.0 * a * c;
+    double discriminant = b * b - 4.0 * a * c;
 
     if (discriminant < 0.0)
-        return 0;
+        return 0;//TODO poryadok
 
     else if (isZero(discriminant))
     {
