@@ -35,7 +35,6 @@ int main()
         printf("Incorrect user input");
         return -2;
     }
-
     double x1 = 0, x2 = 0;
     int nRoots = solveSquare(a, b, c, &x1, &x2);
     return printResult(nRoots, x1, x2);
@@ -82,7 +81,6 @@ int getAllParameterValues(double *a, double *b, double *c)
 int getParameterValue(const char *variableName, double *var)
 {
     printf("Enter variable %s value: ", variableName);
-    scanf("%lf", var);
     int a = '0';
     while ((a = scanf("%lf", var)) == 0 && a != EOF)
     {
