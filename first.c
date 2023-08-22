@@ -10,8 +10,10 @@ bool isZero(double value);
 
 int solveSquare(const double a, const double b, const double c, double *x1, double *x2);
 int solveLinear(const double b, const double c, double *x1);
-void getAllParameterValues(double *a, double *b, double *c);
-void getParameterValue(const char *variableName, double *var);
+int getAllParameterValues(double *a, double *b, double *c);
+int getParameterValue(const char *variableName, double *var);
+int printResult(int nRoots, double x1, double x2);
+void flushUserInput();
 void greetings();
 
 
@@ -25,7 +27,7 @@ int main()
     res = getAllParameterValues(&a, &b, &c);
     if (res != 3){
         printf("Incorrect user input\n");
-        return -2
+        return -2;
     }
 
     if (isnan(a) || isnan(b) || isnan(c))
@@ -36,11 +38,11 @@ int main()
 
     double x1 = 0, x2 = 0;
     int nRoots = solveSquare(a, b, c, &x1, &x2);
-    return printResults;
+    return printResult(nRoots, x1, x2);
 }
 
 
-void printResults(int nRoots){
+int printResult(int nRoots, double x1, double x2){
     switch (nRoots){
         case 0: printf("No solution");
                 break;
@@ -62,7 +64,7 @@ void printResults(int nRoots){
 
 int getAllParameterValues(double *a, double *b, double *c)
 {
-    int succsess = 0;
+    int success = 0;
 
     success += getParameterValue("a", a);
     if (success == 0)
@@ -82,7 +84,7 @@ int getParameterValue(const char *variableName, double *var)
     printf("Enter variable %s value: ", variableName);
     scanf("%lf", var);
     int a = '0';
-    while ((a = scanf("%lf", var) == 0 && a != EOF)
+    while ((a = scanf("%lf", var)) == 0 && a != EOF)
     {
         flushUserInput();
     }
@@ -92,7 +94,7 @@ int getParameterValue(const char *variableName, double *var)
 }
 
 void flushUserInput(){
-    char p = '0';
+    int p = '0';
     while ((p = getchar()) != '\n' && p != EOF) {}
 }
 
