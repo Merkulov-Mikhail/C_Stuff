@@ -17,32 +17,42 @@ void greetings();
 
 int main()
 {
-    double a = NAN, b = NAN, c = NAN;
-
     greetings();
 
-    getAllParameterValues(&a, &b, &c);
+    double a = NAN, b = NAN, c = NAN;
+    int res = 0;
+
+    res = getAllParameterValues(&a, &b, &c);
+    if (res != 3){
+        printf("Incorrect user input\n");
+        return -2
+    }
 
     if (isnan(a) || isnan(b) || isnan(c))
     {
-        printf("Неверные входные данные");
+        printf("Incorrect user input");
         return -2;
     }
 
     double x1 = 0, x2 = 0;
     int nRoots = solveSquare(a, b, c, &x1, &x2);
+    return printResults;
+}
+
+
+void printResults(int nRoots){
     switch (nRoots){
-        case 0: printf("Решений нет");
+        case 0: printf("No solution");
                 break;
         case 1: printf("x1 = %.3lf", x1);
                 break;
         case 2: printf("x1 = %.3lf, x2 = %.3lf", x1, x2);
                 break;
         case INF_SOLVES:
-                printf("Бесконечные решения");
+                printf("Inf solutions");
                 break;
         default:
-                printf("Ошибка!! Количество корней: %d", nRoots);
+                printf("Error!! Number of roots: %d", nRoots);
                 return -1;
 
     }
@@ -50,29 +60,45 @@ int main()
 }
 
 
-void getAllParameterValues(double *a, double *b, double *c)
+int getAllParameterValues(double *a, double *b, double *c)
 {
+    int succsess = 0;
 
-    getParameterValue("a", a);
-    getParameterValue("b", b);
-    getParameterValue("c", c);
-}                     //TODO while
+    success += getParameterValue("a", a);
+    if (success == 0)
+        return 0;
 
+    success += getParameterValue("b", b);
+    if (success == 1)
+        return 1;
 
-void getParameterValue(const char *variableName, double *var)
-{
-    printf("Введите значение переменной %s: ", variableName);
-    scanf("%lf", var);
-    while (isnan(*var)) {
-        getchar();
-        scanf("%lf", var);
-    }
+    success += getParameterValue("c", c);
+    return success;
 }
 
 
+int getParameterValue(const char *variableName, double *var)
+{
+    printf("Enter variable %s value: ", variableName);
+    scanf("%lf", var);
+    int a = '0';
+    while ((a = scanf("%lf", var) == 0 && a != EOF)
+    {
+        flushUserInput();
+    }
+    if (a == EOF)
+        return 0;
+    return 1;
+}
+
+void flushUserInput(){
+    char p = '0';
+    while ((p = getchar()) != '\n' && p != EOF) {}
+}
+
 void greetings()
 {
-    printf("Программа решает уравнения вида ax**2 + bx + c = 0\n\n");
+    printf("Program solves equations of this form -> ax**2 + bx + c = 0\n\n");
 }
 
 
