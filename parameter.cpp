@@ -1,7 +1,6 @@
 #include "parameter.h"
 #include "defaultFunctions.h"
 #include "constants.h"
-#include <stdio.h>
 
 
 int getAllParameterValues (double *a, double *b, double *c, int doInfo)
@@ -31,9 +30,9 @@ int getParameterValue (double *var, const char *variableName, int doInfo)
     }
     int nParams = '0';
 
-    while ( (nParams = scanf ("%lf", var)) == 0 && nParams != EOF)
+    while ( (nParams = scanf ("%lf", var)) == 0)
     {
-        flushUserInput();
+        flushUserInput();       // 4dsdfdffdsdfs
     }
 
     if (nParams == EOF)
